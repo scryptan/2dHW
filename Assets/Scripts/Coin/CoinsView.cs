@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using TMPro;
 using UnityEngine;
 
@@ -13,9 +14,18 @@ public class CoinsView : MonoBehaviour
         _player = FindObjectOfType<Player>();
         if (_player == null)
             throw new ConstraintException("has no player on scene");
+    }
+
+    private void OnEnable()
+    {
         _player.CoinTook += SetCoinsCount;
     }
-    
+
+    private void OnDisable()
+    {
+        _player.CoinTook -= SetCoinsCount;
+    }
+
     private void SetCoinsCount(int count)
     {
         _text.SetText($"Coins: {count}");
