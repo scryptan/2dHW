@@ -20,7 +20,8 @@ namespace UI.HealthBar
         private Tween _underFillSliderTween;
         private Bar _healthBar;
         private Slider _fillSlider;
-        private float _underFillSliderDuration => barValueDurationInSeconds * 3;
+        private float _underFillSliderDurationToDown => barValueDurationInSeconds * 3;
+        private float _underFillSliderDurationToUp => barValueDurationInSeconds / 3;
 
         private void Awake()
         {
@@ -66,10 +67,8 @@ namespace UI.HealthBar
             if (underFillSlider != null)
             {
                 _underFillSliderTween?.Kill();
-                if (isAddOperation)
-                    underFillSlider.value = _healthBar.CurrentValue;
-                else
-                    _underFillSliderTween = underFillSlider.DOValue(_healthBar.CurrentValue, _underFillSliderDuration);
+                _underFillSliderTween = underFillSlider.DOValue(_healthBar.CurrentValue,
+                    isAddOperation ? _underFillSliderDurationToUp : _underFillSliderDurationToDown);
             }
         }
     }
